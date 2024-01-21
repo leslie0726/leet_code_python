@@ -12,54 +12,20 @@ class Solution:
         pass
 
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        result = ListNode()
-        result_tmp = result
-        increase = 0
-        while True:
-            if l1 == None and l2 == None:
-                if increase == 1:
-                    result_tmp.val = 1
-                else:
-                    result_tmp = None
-                break;
-            elif l1 == None:
-                if l2.val + increase >= 10:
-                    result_tmp.val = l2.val + increase - 10
-                    increase = 1
-                else:
-                    result_tmp.val = l2.val + increase
-                    increase = 0
-                if l2.next != None or increase ==1:
-                    result_tmp.next = ListNode()
-                result_tmp = result_tmp.next
-                l2 = l2.next
-            elif l2 == None:
-                if l1.val + increase >= 10:
-                    result_tmp.val = l1.val + increase - 10
-                    increase = 1
-                else:
-                    print(l1.val + increase)
-                    result_tmp.val = l1.val + increase
-                    increase = 0
-                if l1.next != None or increase ==1:
-                    result_tmp.next = ListNode()
-                result_tmp = result_tmp.next
-                l1 = l1.next
-            else:
-                if l1.val + l2.val + increase >= 10:
-                    result_tmp.val = l1.val + l2.val + increase - 10
-                    increase = 1;
-                else:
-                    result_tmp.val = l1.val + l2.val + increase
-                    increase = 0;
-                l1 = l1.next;
-                l2 = l2.next;
-                if l1 == None and l2 == None:
-                    if increase == 1:
-                        result_tmp.next =ListNode(1)
-                    break;
-                result_tmp.next = ListNode()
-                result_tmp = result_tmp.next;
+        dummy_head = ListNode(0)
+        tail = dummy_head
+        carry = 0
+        while l1 is not None or l2 is not None or carry != 0:
+            l1_val = l1.val if l1 != None else 0
+            l2_val = l2.val if l2 != None else 0
+            sum = l1_val + l2_val + carry
+            new_node = ListNode(sum % 10)
+            carry = sum // 10
+            tail.next = new_node
+            l1 = l1.next if l1 != None else None
+            l2 = l2.next if l2 != None else None
+            tail = tail.next;
+        result = dummy_head.next
         return result;
 
     def to_array(self, list_node) -> List[int]:
